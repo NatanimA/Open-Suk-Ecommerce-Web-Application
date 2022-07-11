@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="w3layouts-breadcrumbs text-center">
+		<div class="container">
+			<span class="agile-breadcrumbs"><a href="index.html"><i class="fa fa-home home_1"></i></a> / <span>Post your Ad</span></span>
+		</div>
+	</div>
+	<!-- //breadcrumbs -->
+	<!-- Submit Ad -->
+	<div class="submit-ad main-grid-border">
+		<div class="container">
+			<h2 class="w3-head">Post an Ad</h2>
+			<div class="post-ad-form">
+				<form>
+					<label>Select Category <span>*</span></label>
+					
+					  {{form.category}}
+					
+					<div class="clearfix"></div>
+					<label>Ad Title <span>*</span></label>
+					{{form.name}}
+					<div class="clearfix"></div>
+					<label>Ad Description <span>*</span></label>
+					{{form.description}}
+					<div class="clearfix"></div>
+                    <label>Quantity <span>*</span></label>
+                        {{form.quantity}}
+                    <div class="clearfix"></div>
+                    <label>Brand <span>*</span></label>
+                        {{form.brand}}
+                    <div class="clearfix"></div>
+				<div class="upload-ad-photos">
+				<label>Photos for your ad :</label>	
+					<div class="photos-upload-view">
+						<form id="upload" action="{% url 'products:post' %}" method="POST" enctype="multipart/form-data">
+
+						<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+
+						<div>
+							{{form.images}}
+							<div id="filedrag">or drop files here</div>
+						</div>
+
+						<div id="submitbutton">
+							<button type="submit">Upload Files</button>
+						</div>
+
+						</form>
+
+						</div>
+					<div class="clearfix"></div>
+						<script src="{% static 'js/filedrag.js' %} "></script>
+				</div>
+					<div class="personal-details">
+					<form>
+						<label>Your Name <span>*</span></label>
+						<input type="text" class="name" placeholder="">
+						<div class="clearfix"></div>
+						<label>Your Mobile No <span>*</span></label>
+						<input type="text" class="phone" placeholder="">
+						<div class="clearfix"></div>
+						<label>Your Email Address<span>*</span></label>
+						<input type="text" class="email" placeholder="">
+						<div class="clearfix"></div>
+						<p class="post-terms">By clicking <strong>post Button</strong> you accept our <a href="terms.html" target="_blank">Terms of Use </a> and <a href="privacy.html" target="_blank">Privacy Policy</a></p>
+					<input type="submit" value="Post">					
+					<div class="clearfix"></div>
+					</form>
+					</div>
+			</div>
+		</div>	
+	</div>
+{% endblock %}

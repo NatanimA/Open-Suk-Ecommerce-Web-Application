@@ -7,6 +7,7 @@ urlpatterns = [
     path('',views.productList,name='product_list'),
     path('<slug:category_slug>', views.productList, name='product_list_category'),
     path('products/<slug:product_slug>/',views.productDetail ,name='product_detail'),
+    path('post/new/',views.ProductCreate.as_view(),name='post')
     # path('',views.ProductDelete.as_view(),name='product_delete'),
 ]
 

@@ -51,5 +51,6 @@ def productDetail(request,product_slug):
 
     return render(request,template,context)
 
-class ProductDelete(DeleteView):
-    pass 
+class ProductCreate(CreateView):
+    model=Product
+    fields = ("name","category","quantity","brand","description", "image", "condition")
