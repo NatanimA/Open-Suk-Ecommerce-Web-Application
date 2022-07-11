@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+	 <!-- sign up form -->
+	 <section>
+		<div id="agileits-sign-in-page" class="sign-in-wrapper">
+			<div class="agileinfo_signin">
+			<h3>Sign Up</h3>
+				<form action="{% url 'accounts:signup' %}" method="post">
+					{% csrf_token %}
+					<input type="text" name="first_name" placeholder="First Name" required="">
+					<input type="text" name="lats_name" placeholder="Last Name" required="">  
+					<input type="text" name="username" placeholder="UserName" required=""> 
+					<input type="email" name="email" placeholder="Your Email" required=""> 
+					<input type="tel" name="phone" placeholder="Mobile" required=""> 
+					<input type="password" name="password" placeholder="Password" required=""> 
+					<input type="password" name="Password" placeholder="Confirm Password" required=""> 
+					{% comment %} <div class="signin-rit">
+						<span class="agree-checkbox">
+							<label class="checkbox"><input type="checkbox" name="checkbox">I agree to your <a class="w3layouts-t" href="terms.html" target="_blank">Terms of Use</a> and <a class="w3layouts-t" href="privacy.html" target="_blank">Privacy Policy</a></label>
+						</span>
+					</div> {% endcomment %}
+					<input type="submit" value="Sign Up">
+				</form>
+			</div>
+		</div>
+	</section>
+	<!-- //sign up form -->
+{% endblock content %}
