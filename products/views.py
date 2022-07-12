@@ -1,21 +1,28 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from . models import Product,ProductImages,Category,Brand
+from . models import Product,ProductImages,Category,Brand,City
 from django.views.generic import (ListView,DetailView,DeleteView,CreateView)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.db.models import Q
  
-def productList(request,category_slug=None):
+def productList(request,category_slug=None,city_slug=None):
     category=None
+    city=None
     productList=Product.objects.all()
     categoryList=Category.objects.annotate(total_products=Count('product'))
+   
     
     if category_slug:
         category = Category.objects.get(slug=category_slug)
         productList=productList.filter(category=category)
+    
+    if city_slug:
+        city = City.objects.get(slug=city_slug)
+        productList=productList.filter(city=city)
+
 
 
     search_query = request.GET.get('q')
@@ -26,7 +33,8 @@ def productList(request,category_slug=None):
             Q(price__icontains = search_query) |
             Q(condition__icontains = search_query) |
             Q(brand__brand_name__icontains=search_query) |
-            Q(category__category_name__icontains=search_query) 
+            Q(category__category_name__icontains=search_query) |
+            Q(city__city_name__icontains = search_query)
 
         )
 
