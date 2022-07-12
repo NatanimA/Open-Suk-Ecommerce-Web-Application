@@ -392,20 +392,26 @@
 				<div class="browse-category ads-list">
 					<label>Browse Categories</label>
 					<select class="selectpicker show-tick" data-live-search="true">
-					  <option data-tokens="Mobiles">All</option>
-					  <option data-tokens="Mobiles">Mobiles</option>
-					  <option data-tokens="Electronics & Appliances">Electronics & Appliances</option>
-					  <option data-tokens="Cars">Cars</option>
-					  <option data-tokens="Bikes">Bikes</option>
-					  <option data-tokens="Furniture">Furniture</option>
-					  <option data-tokens="Pets">Pets</option>
-					  <option data-tokens="Books, Sports & Hobbies">Books, Sports & Hobbies</option>
-					  <option data-tokens="Fashion">Fashion</option>
-					  <option data-tokens="Kids">Kids</option>
-					  <option data-tokens="Services">Services</option>
-					  <option data-tokens="Jobs">Jobs</option>
-					  <option data-tokens="Real Estate">Real Estate</option>
+	
+						{% for category in category_list  %}
+					 		<option value='{% url 'products:product_list_category' category.slug %}'><a href='{% url 'products:product_list_category' category.slug %}'>{{category}}</a></option>
+					  
+					  	{% endfor %}
 					</select>
+		
+					<script>
+					
+						$(function(){
+						// bind change event to select
+						$('select').on('change', function () {
+							var url = $(this).val(); // get selected value
+							if (url) { // require a URL
+								window.location = url; // redirect
+							}
+							return false;
+						});
+						});
+					</script>
 				</div>
 				<div class="search-product ads-list">
 					<label>Search for a specific product</label>
