@@ -551,7 +551,7 @@
 								<div class="clearfix"></div>
 							<ul class="list">
 								{% for product in product_list %}
-								<a href="{% url 'products:product_detail' product_slug=product.slug %}">
+								<a href="{% url 'products:product_detail' slug=product.slug %}">
 									<li>
 									<img src="{{product.image.url}}" title="" alt="" />
 									<section class="list-left">

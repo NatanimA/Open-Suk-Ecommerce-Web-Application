@@ -7,6 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	{% extends 'base.html' %}
     {% load static %}
     {% block content %}
+	{% load hitcount_tags %}
 	
 	<div class="w3layouts-breadcrumbs text-center">
 		<div class="container">
@@ -25,6 +26,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="col-md-7 product-view">
 					<h2>{{product_detail}}</h2>
 					<p> <i class="glyphicon glyphicon-map-marker"></i><a href="#">state</a>, <a href="#">city</a>| Added at 06:55 pm, Ad ID: 987654321</p>
+					<p>Views: {% get_hit_count for product_detail %}</p>
 					
 					<div class="flexslider">
 						<ul class="slides">

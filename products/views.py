@@ -7,6 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.db.models import Q
+from hitcount.views import HitCountDetailView
+from django.shortcuts import get_object_or_404
  
 def productList(request,category_slug=None,city_slug=None):
     category=None
@@ -49,15 +51,32 @@ def productList(request,category_slug=None,city_slug=None):
     return render(request,template,context)
     
 
-def productDetail(request,product_slug):
+class ProductDetailView(HitCountDetailView,DetailView):
+    model = Product
+    count_hit = True
+    slug_field = 'slug'
+    template_name = 'products/product_detail.html'
+    slug_field = 'slug'
+    context_object_name = 'product_detail'
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super(ProductDetailView, self).get_context_data(**kwargs)
+    
+        context.update({
+            
+            'popular': Product.objects.order_by('-hit_count_generic__hits')[:3],
+            #'product_images': ProductImages.objects.filter(get_object_or_404(Product,)),
+        })
+        return context
 
-    productdetail = Product.objects.get(slug=product_slug)
-    productimages= ProductImages.objects.filter(product=productdetail)
-    template='products/product_detail.html'
 
-    context ={'product_detail':productdetail,'product_images':productimages}
+    
 
-    return render(request,template,context)
+    # set to True to count the hit
+    
+
+   
 
 class ProductCreate(CreateView):
     model=Product
