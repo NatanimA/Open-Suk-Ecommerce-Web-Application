@@ -9,6 +9,8 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.conf import settings
 from accounts.models import CustomUser
+from hitcount.models import HitCountMixin, HitCount
+from django.contrib.contenttypes.fields import GenericRelation
 # Create your models here.
 
 class Product(models.Model):
@@ -32,6 +34,9 @@ class Product(models.Model):
     trending=models.BooleanField(default=False,help_text="0=default,1=trending")
     category=models.ForeignKey('Category',on_delete=models.SET_NULL,null=True)
     brand=models.ForeignKey("Brand",on_delete=models.SET_NULL,null=True)
+    hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
+                                        related_query_name='hit_count_generic_relation')
+
     slug=models.SlugField(blank = True,null = True)
    
     def __str__(self) -> str:
