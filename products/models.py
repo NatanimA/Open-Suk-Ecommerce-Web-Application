@@ -21,7 +21,7 @@ class Product(models.Model):
 
     name=models.CharField(max_length=100)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-
+    city = models.ForeignKey('City',blank=True,null=True,on_delete=models.CASCADE)
     description=models.TextField(blank=True,max_length=500)
     condition=models.CharField(max_length=100,choices=CONDITION_TYPE)
     price=models.DecimalField(max_digits=10,decimal_places=2)
@@ -74,6 +74,18 @@ class Category(models.Model):
 
     def __str__(self) -> str:
         return self.category_name
+
+class City(models.Model):
+    city_name=models.CharField(max_length=50)
+    slug=models.SlugField(blank=True,null=True)
+
+    def save(self,*args,**kwargs):
+        if not self.slug and self.city_name:
+            self.slug = slugify (self.city_name)
+        super(City,self).save(*args, **kwargs)
+    
+    def __str__(self) -> str:
+        return self.city_name
 
 
 class Brand(models.Model):
