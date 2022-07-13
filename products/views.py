@@ -15,6 +15,7 @@ def productList(request,category_slug=None,city_slug=None):
     city=None
     productList=Product.objects.all()
     categoryList=Category.objects.annotate(total_products=Count('product'))
+    cityList=City.objects.all()
    
     
     if category_slug:
@@ -47,7 +48,7 @@ def productList(request,category_slug=None,city_slug=None):
     product_list =paginator.get_page(page)
     template = 'products/product_list.html'
 
-    context = {'product_list' : productList , 'category_list': categoryList, 'category' :category}
+    context = {'product_list' : productList , 'category_list': categoryList, 'category' :category,'cityList':cityList,'city':city}
     return render(request,template,context)
     
 
