@@ -5,7 +5,7 @@
 		<div class="container">
 			<span class="agile-breadcrumbs"><a href="{% url 'home' %}"><i class="fa fa-home home_1"></i></a> / <a href='{% url 'products:product_list' %}'> <span>All Ads</span></a>
 			{% if category %}	
-				/<a href='{% url 'products:product_list_category' category.slug  %}'> <span>{{category}}</span>
+				/<a href='{% url 'products:product_list_category' category.category_slug  %}'> <span>{{category}}</span>
 			{% endif %}
 			</span>	
 		</div>
@@ -21,7 +21,7 @@
 												<optgroup label="Popular Cities">
 													<option selected style="display:none;color:#eee;">Entire Ethiopia</option>
 													{% for cities in cityList  %}
-													<option>{{cities.city_name}}</option>
+													<option value='{% url 'products:product_list_city' cities.city_slug %}'>{{cities.city_name}}</option>
 													{% endfor %}
 													
 												</optgroup>				
@@ -33,7 +33,7 @@
 					<select class="selectpicker show-tick" data-live-search="true">
 	
 						{% for category in category_list  %}
-					 		<option value='{% url 'products:product_list_category' category.slug %}'><a href='{% url 'products:product_list_category' category.slug %}'>{{category}}</a></option>
+					 		<option value='{% url 'products:product_list_category' category.category_slug %}'><a href='{% url 'products:product_list_category' category.category_slug %}'>{{category}}</a></option>
 					  
 					  	{% endfor %}
 					</select>
@@ -73,7 +73,7 @@
 				<h3> Select your category and find the perfect ad</h3>
 				<ul class="all-cat-list">
 					{% for category in category_list  %}
-					<li><a href="{% url 'products:product_list_category' category.slug %}">{{category}} <span class="num-of-ads">({{category.total_products}})</span></a></li>
+					<li><a href="{% url 'products:product_list_category' category.category_slug %}">{{category}} <span class="num-of-ads">({{category.total_products}})</span></a></li>
 					{% endfor %}
 					
 				</ul>

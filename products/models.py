@@ -66,7 +66,7 @@ class Category(models.Model):
     category_name=models.CharField(max_length=50)
     image=models.ImageField(upload_to='media/category',blank=True,null=True)
 
-    slug=models.SlugField(blank=True,null=True)
+    category_slug=models.SlugField(blank=True,null=True)
 
     def save(self,*args,**kwargs):
         if not self.slug and self.category_name:
@@ -82,11 +82,11 @@ class Category(models.Model):
 
 class City(models.Model):
     city_name=models.CharField(max_length=50)
-    slug=models.SlugField(blank=True,null=True)
+    city_slug=models.SlugField(blank=True,null=True)
 
     def save(self,*args,**kwargs):
-        if not self.slug and self.city_name:
-            self.slug = slugify (self.city_name)
+        if not self.city_slug and self.city_name:
+            self.city_slug = slugify (self.city_name)
         super(City,self).save(*args, **kwargs)
     
     def __str__(self) -> str:

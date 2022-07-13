@@ -17,14 +17,15 @@ def productList(request,category_slug=None,city_slug=None):
     categoryList=Category.objects.annotate(total_products=Count('product'))
     cityList=City.objects.all()
    
+    if city_slug and not category_slug:
+        city = City.objects.get(city_slug=city_slug)
+        productList = productList.filter(city=city)
     
-    if category_slug:
-        category = Category.objects.get(slug=category_slug)
+    if category_slug and not city_slug:
+        category = Category.objects.get(category_slug=category_slug)
         productList=productList.filter(category=category)
     
-    if city_slug:
-        city = City.objects.get(slug=city_slug)
-        productList=productList.filter(city=city)
+    
 
 
 
