@@ -69,8 +69,8 @@ class Category(models.Model):
     category_slug=models.SlugField(blank=True,null=True)
 
     def save(self,*args,**kwargs):
-        if not self.slug and self.category_name:
-            self.slug =slugify (self.category_name)
+        if not self.category_slug and self.category_name:
+            self.category_slug = slugify(self.category_name)
         super(Category,self).save(*args, **kwargs)
 
     class Meta:  
