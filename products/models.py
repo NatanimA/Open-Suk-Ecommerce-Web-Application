@@ -88,7 +88,6 @@ class City(models.Model):
         if not self.city_slug and self.city_name:
             self.city_slug = slugify (self.city_name)
         super(City,self).save(*args, **kwargs)
-    
     def __str__(self) -> str:
         return self.city_name
 
