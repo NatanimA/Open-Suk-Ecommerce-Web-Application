@@ -25,7 +25,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="product-desc">
 				<div class="col-md-7 product-view">
 					<h2>{{product_detail}}</h2>
-					<p> <i class="glyphicon glyphicon-map-marker"></i><a href="#">state</a>, <a href="#">city</a>| Added at 06:55 pm, Ad ID: 987654321</p>
+					<p> <i class="glyphicon glyphicon-map-marker"></i><a href="#">state</a>, <a href="#">{{product_detail.city}}</a>| Added at 06:55 pm, Ad ID: 987654321</p>
 					<p>Views: {% get_hit_count for product_detail %}</p>
 					
 					<div class="flexslider">
