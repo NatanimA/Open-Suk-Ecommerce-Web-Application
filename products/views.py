@@ -68,7 +68,7 @@ class ProductDetailView(HitCountDetailView,DetailView):
         context.update({
             
             'popular': Product.objects.order_by('-hit_count_generic__hits')[:3],
-            'product_images': Product.objects.all,
+            'product_images': ProductImages.objects.filter(product_id = self.object.id),
         })
         return context
 
