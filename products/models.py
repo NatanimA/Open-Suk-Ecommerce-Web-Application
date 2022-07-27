@@ -38,12 +38,16 @@ class Product(models.Model):
                                         related_query_name='hit_count_generic_relation')
 
     slug=models.SlugField(blank = True,null = True)
+
    
     def __str__(self) -> str:
         return self.name
 
     def save(self,*args,**kwargs):
+        product_images = models.ImageField(
+            ProductImages)
 
+       
         if not self.slug and self.name:
             self.slug=slugify(self.name)
         super(Product,self).save(*args,**kwargs)
