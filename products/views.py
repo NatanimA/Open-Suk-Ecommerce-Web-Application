@@ -2,6 +2,7 @@
 from urllib import response
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from requests import request
 from . models import Product,ProductImages,Category,Brand,City
 from django.views.generic import (ListView,DetailView,DeleteView,CreateView)
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -83,4 +84,10 @@ class ProductDetailView(HitCountDetailView,DetailView):
 
 class ProductCreate(CreateView):
     model=Product
+    prodimg=ProductImages.get_deferred_fields[image]
+
+    print(prodimg)
+   
     fields = ("name","category","quantity","brand","description", "image", "condition")
+
+    
