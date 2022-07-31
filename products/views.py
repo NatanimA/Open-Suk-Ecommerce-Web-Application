@@ -1,6 +1,8 @@
 
+from urllib import response
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from requests import request
 from . models import Product,ProductImages,Category,Brand,City
 from django.views.generic import (ListView,DetailView,DeleteView,CreateView)
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,6 +11,7 @@ from django.db.models import Count
 from django.db.models import Q
 from hitcount.views import HitCountDetailView
 from django.shortcuts import get_object_or_404
+
  
 def productList(request,category_slug=None,city_slug=None):
     category=None
@@ -55,6 +58,7 @@ def productList(request,category_slug=None,city_slug=None):
 
 class ProductDetailView(HitCountDetailView,DetailView):
     model = Product
+    # set to True to count the hit
     count_hit = True
     slug_field = 'slug'
     template_name = 'products/product_detail.html'
@@ -68,18 +72,22 @@ class ProductDetailView(HitCountDetailView,DetailView):
         context.update({
             
             'popular': Product.objects.order_by('-hit_count_generic__hits')[:3],
-            'product_images': Product.objects.all,
+            'product_images': ProductImages.objects.filter(product_id = self.object.id),
         })
         return context
 
 
     
-
-    # set to True to count the hit
-    
-
    
+
+
 
 class ProductCreate(CreateView):
     model=Product
+    prodimg=ProductImages.get_deferred_fields[image]
+
+    print(prodimg)
+   
     fields = ("name","category","quantity","brand","description", "image", "condition")
+
+    
