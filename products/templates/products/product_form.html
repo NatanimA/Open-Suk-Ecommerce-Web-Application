@@ -12,7 +12,7 @@
 		<div class="container">
 			<h2 class="w3-head">Post an Ad</h2>
 			<div class="post-ad-form">
-				<form>
+				<form method="Post" action="{% url 'products:product_list' %}">
 					<label>Select Category <span>*</span></label>
 					
 					  {{form.category}}
@@ -33,13 +33,10 @@
 				<div class="upload-ad-photos">
 				<label>Photos for your ad :</label>	
 					<div class="photos-upload-view">
-						<form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone" >
 							{% csrf_token %}
 							<div class="fallback">
-							<input name="file" type="file" multiple />
+							{{form.image}}
 							</div>
-						</form>
-
 						</div>
 					<div class="clearfix"></div>
 						<script src="{% static 'js/filedrag.js' %} "></script>

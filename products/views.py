@@ -1,8 +1,10 @@
 
 from urllib import response
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from requests import request
+from django.views.generic.edit import FormView
+from .forms import ConsumerRegistrationForm, ProductImagesForm
 from . models import Product,ProductImages,Category,Brand,City
 from django.views.generic import (ListView,DetailView,DeleteView,CreateView)
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,6 +13,7 @@ from django.db.models import Count
 from django.db.models import Q
 from hitcount.views import HitCountDetailView
 from django.shortcuts import get_object_or_404
+from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetFactory
 
  
 def productList(request,category_slug=None,city_slug=None):
@@ -47,7 +50,7 @@ def productList(request,category_slug=None,city_slug=None):
 
 
 
-    paginator=Paginator(productList,5)
+    paginator=Paginator(productList,10)
     page = request.GET.get('page')
     product_list =paginator.get_page(page)
     template = 'products/product_list.html'
@@ -77,17 +80,19 @@ class ProductDetailView(HitCountDetailView,DetailView):
         return context
 
 
-    
-   
-
 
 
 class ProductCreate(CreateView):
     model=Product
-    prodimg=ProductImages.get_deferred_fields[image]
+    child_model=ProductImages
+    template_name = 'products/product_form.html'
+    child_form_class = ProductImagesForm
+    fields = ("name", "category", "quantity", "brand",
+             "description", "condition","image")
 
-    print(prodimg)
-   
-    fields = ("name","category","quantity","brand","description", "image", "condition")
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(ProductCreate, self).form_valid(form)
 
+    
     
