@@ -5,12 +5,16 @@ from time import timezone
 from unicodedata import category
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from django.conf import settings
 from accounts.models import CustomUser
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 # Create your models here.
 
 class Product(models.Model):
@@ -22,7 +26,7 @@ class Product(models.Model):
     )
 
     name=models.CharField(max_length=100)
-    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, null=True,on_delete=models.CASCADE)
     city = models.ForeignKey('City',blank=True,null=True,on_delete=models.CASCADE)
     description=models.TextField(blank=True,max_length=500)
     condition=models.CharField(max_length=100,choices=CONDITION_TYPE)
@@ -39,14 +43,14 @@ class Product(models.Model):
 
     slug=models.SlugField(blank = True,null = True)
 
-   
+    def get_absolute_url ( self ) : 
+        return reverse ( "products:product_detail" , kwargs= { "slug" : self.slug }) 
+
+
     def __str__(self) -> str:
         return self.name
 
     def save(self,*args,**kwargs):
-        product_images = models.ImageField(
-            ProductImages)
-
        
         if not self.slug and self.name:
             self.slug=slugify(self.name)

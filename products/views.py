@@ -1,16 +1,23 @@
 
 from urllib import response
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from requests import request
+from django.views.generic.edit import FormView
+from .forms import ConsumerRegistrationForm, ProductForm, ProductImagesForm
 from . models import Product,ProductImages,Category,Brand,City
-from django.views.generic import (ListView,DetailView,DeleteView,CreateView)
+from django.views.generic.edit import CreateView
+
+from django.views.generic import (ListView,DetailView,DeleteView)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.db.models import Q
 from hitcount.views import HitCountDetailView
 from django.shortcuts import get_object_or_404
+from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetFactory
 
  
 def productList(request,category_slug=None,city_slug=None):
@@ -47,7 +54,7 @@ def productList(request,category_slug=None,city_slug=None):
 
 
 
-    paginator=Paginator(productList,5)
+    paginator=Paginator(productList,10)
     page = request.GET.get('page')
     product_list =paginator.get_page(page)
     template = 'products/product_list.html'
@@ -77,17 +84,21 @@ class ProductDetailView(HitCountDetailView,DetailView):
         return context
 
 
-    
-   
-
-
-
-class ProductCreate(CreateView):
+class ProductCreate(LoginRequiredMixin, CreateWithInlinesView):
     model=Product
-    prodimg=ProductImages.get_deferred_fields[image]
+    form_class=ProductForm
+    template_name = 'products/product_form.html'
+    #inlines = [ProductImagesForm]
+    
 
-    print(prodimg)
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+    
+    def get_success_url(self):
+        return reverse('products:product_list')
+
    
-    fields = ("name","category","quantity","brand","description", "image", "condition")
-
     
