@@ -102,6 +102,7 @@ class City(models.Model):
 
 class Brand(models.Model):
     ##Products Brand
+    category=models.ForeignKey(Category,null=True,blank=True,on_delete=models.CASCADE)
     brand_name = models.CharField(max_length=50)
 
     class Meta:
