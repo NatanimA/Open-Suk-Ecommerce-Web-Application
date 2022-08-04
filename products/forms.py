@@ -45,7 +45,7 @@ class CombinedFormBase(forms.Form):
 class ProductForm(ModelForm):
     class Meta:
        model=Product
-       fields = ("name", "description", "condition",
+       fields = ("name", "description", "city","condition",
         "price", "category", "quantity", "brand", "image",
                )
 

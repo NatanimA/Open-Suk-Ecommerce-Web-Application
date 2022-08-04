@@ -14,9 +14,10 @@
 		<div class="container">
 			<h2 class="w3-head">Post an Ad</h2>
 			<div class="post-ad-form">
-				<form method="post" >
+				<form method="post" enctype="multipart/form-data">
 					{% csrf_token %}
 					{{ form.as_p }}
+					
 					<input type="submit" value="Save">
 				</form>
 					
