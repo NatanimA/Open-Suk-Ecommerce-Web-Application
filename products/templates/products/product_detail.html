@@ -83,20 +83,29 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<h4>Interested in this Ad?<small> Contact the Seller!</small></h4>
 						<p><i class="glyphicon glyphicon-earphone"></i>Phone:{{product_detail.phone}}</p>
 					</div>
-						<div class="tips">
-						<h4>Safety Tips for Buyers</h4>
-							<ol>
-								<li><a href="#">Contrary to popular belief.</a></li>
-								<li><a href="#">Contrary to popular belief.</a></li>
-								<li><a href="#">Contrary to popular belief.</a></li>
-								<li><a href="#">Contrary to popular belief.</a></li>
-								<li><a href="#">Contrary to popular belief.</a></li>
-								<li><a href="#">Contrary to popular belief.</a></li>
-								<li><a href="#">Contrary to popular belief.</a></li>
-								<li><a href="#">Contrary to popular belief.</a></li>
-								<li><a href="#">Contrary to popular belief.</a></li>
-							</ol>
-						</div>
+					<h2>Featured Ads</h2>
+					{% for product in popular  %}
+						<div class="w3ls-featured-ads">
+					<h2 class="sear-head fer">{{product.name}}</h2>
+					<div class="w3l-featured-ad">
+						
+						<a href="{% url 'products:product_detail' slug=product.slug %}">
+							
+							<div class="w3-featured-ad-left">
+								<img src={{product.image.url}} title="ad image" alt="" />
+							</div>
+							<div class="w3-featured-ad-right">
+								<h3>{{product.description}}</h3>
+								<h6>{{product.city}}</h6>
+								<p>$ {{product.price}}</p>
+							</div>
+							<div class="clearfix"></div>
+						</a>
+						
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				{% endfor %}
 				</div>
 			<div class="clearfix"></div>
 			</div>

@@ -47,6 +47,12 @@ class Product(models.Model):
         return reverse ( "products:product_detail" , kwargs= { "slug" : self.slug }) 
 
 
+    def set_trending_product(self,*args, **kwargs):
+        if self.hit_count_generic > 10:
+            self.trending=True;
+        super(Product, self).set_trending_product(*args, **kwargs)
+
+
     def __str__(self) -> str:
         return self.name
 
