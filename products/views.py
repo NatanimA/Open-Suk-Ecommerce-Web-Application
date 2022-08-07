@@ -26,6 +26,7 @@ def productList(request,category_slug=None,city_slug=None):
     productList=Product.objects.all()
     categoryList=Category.objects.annotate(total_products=Count('product'))
     cityList=City.objects.all()
+    popular=Product.objects.order_by('-hit_count_generic__hits')[:3]
    
     if city_slug and not category_slug:
         city = City.objects.get(city_slug=city_slug)
@@ -54,12 +55,13 @@ def productList(request,category_slug=None,city_slug=None):
 
 
 
-    paginator=Paginator(productList,10)
+    paginator=Paginator(productList,5)
     page = request.GET.get('page')
     product_list =paginator.get_page(page)
     template = 'products/product_list.html'
 
-    context = {'product_list' : productList , 'category_list': categoryList, 'category' :category,'cityList':cityList,'city':city}
+    context = {'product_list': product_list, 'category_list': categoryList,
+               'category': category, 'cityList': cityList, 'city': city, 'popular': popular}
     return render(request,template,context)
     
 
