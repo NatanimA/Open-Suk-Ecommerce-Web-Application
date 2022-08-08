@@ -117,24 +117,27 @@
 							</script>
 							
 				</div>
+				<h2 class="sear-head fer">Featured Ads</h2>
+				{% for product in popular  %}
 				<div class="w3ls-featured-ads">
-					<h2 class="sear-head fer">Featured Ads</h2>
+					<h2>{{product.name}}</h2>
 					<div class="w3l-featured-ad">
-						{% for product in popular  %}
-						<a href="single.html">
+						
+						<a href="{% url 'products:product_detail' slug=product.slug %}">
 							<div class="w3-featured-ad-left">
-								<img src="images/f1.jpg" title="ad image" alt="" />
+								<img src="{{product.image.url}}"title="ad image" alt="" />
 							</div>
 							<div class="w3-featured-ad-right">
-								<h4>{{product.brand}}</h4>
-								<p>$ 450</p>
+								<h4>{{product.description}}</h4>
+								<p>$ {{product.price}}</p>
 							</div>
 							<div class="clearfix"></div>
 						</a>
-						{% endfor %}
+						
 					</div>
 					<div class="clearfix"></div>
 				</div>
+				{% endfor %}
 				</div>
 				<div class="agileinfo-ads-display col-md-9">
 					<div class="wrapper">					
